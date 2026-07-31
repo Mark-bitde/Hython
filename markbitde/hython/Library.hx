@@ -7,16 +7,16 @@
  * Custom modules can be added via Library.loadLibrary override.
  * See loadLibrary docstring for extension pattern.
  */
-package paopao.hython;
+package markbidte.hython;
 
-import paopao.hython.Objects.Dict;
-import paopao.hython.Expr;
-import paopao.hython.Interp as PyInterp;
+import markbitde.hython.Objects.Dict;
+import markbitde.hython.Expr;
+import markbitde.hython.Interp as PyInterp;
 #if sys
 import sys.FileSystem;
 #end
 
-@:allow(paopao.hython.Interp)
+@:allow(markbitde.hython.Interp)
 @:privateAccess
 /**
  * Library — built-in module provider for Hython.

@@ -1,6 +1,6 @@
-package paopao.hython.utils;
+package markbitde.hython.utils;
 
-@:allow(paopao.hython.Interp)
+@:allow(markbitde.hython.Interp)
 @:nullSafety(Strict) class HyStd extends Std {
 	public static function bool(value:Dynamic):Bool {
 		if (value == null)
