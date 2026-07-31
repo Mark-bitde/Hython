@@ -2280,7 +2280,7 @@ class Interp {
 
 			// Если класс успешно найден (в Iris или Haxe), упаковываем его в модуль Python
 			if (hxClass != null) {
-				var dictModule = new paopao.hython.Objects.Dict();
+				var dictModule = new markbitde.hython.Objects.Dict();
 				
 				// Настраиваем вызов класса как функции (для конструкторов вроде FlxButton(0,0))
 				dictModule.set("__call__", hxClass); 
@@ -2313,7 +2313,7 @@ class Interp {
 				// Если это не класс, проверяем на Enum (Перечисление Haxe)
 				var hxEnum = Type.resolveEnum(moduleName);
 				if (hxEnum != null) {
-					var enumModule = new paopao.hython.Objects.Dict();
+					var enumModule = new markbitde.hython.Objects.Dict();
 					var constructs = Type.getEnumConstructs(hxEnum);
 					for (construct in constructs) {
 						var val = Type.createEnum(hxEnum, construct);
