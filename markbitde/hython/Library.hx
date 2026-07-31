@@ -7,7 +7,7 @@
  * Custom modules can be added via Library.loadLibrary override.
  * See loadLibrary docstring for extension pattern.
  */
-package markbidte.hython;
+package markbitde.hython;
 
 import markbitde.hython.Objects.Dict;
 import markbitde.hython.Expr;
