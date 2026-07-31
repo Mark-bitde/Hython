@@ -32,7 +32,7 @@ class RedeclaredVar {
 	public var depth:Int;
 }
 
-@:access(paopao.hython.Interp)
+@:access(markbitde.hython.Interp)
 @:analyzer(optimize, local_dce, fusion, user_var_fusion)
 @:nullSafety(Strict) class Gen {
 	public var interp:Interp;
