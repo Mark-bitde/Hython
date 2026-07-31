@@ -2251,7 +2251,81 @@ class Interp {
 		if (module == null) {
 			module = importLibrary.createBuiltinModule(this, moduleName);
 		}
+		if (module == null && this.allowClassResolve) {
+			var hxClass:Dynamic = null;
 
+			// Безопасный статический доступ к глобальной карте прокси Iris
+			#if (crowplexus_iris || iris || hscript)
+			try {
+				// Обращаемся напрямую к классу Iris и его статической карте proxyImports
+				if (crowplexus.iris.Iris.proxyImports.exists(moduleName)) {
+					hxClass = crowplexus.iris.Iris.proxyImports.get(moduleName);
+				}
+			} catch(e:Dynamic) {
+				// Резервный вариант, если в вашей версии пакет называется иначе
+				try {
+					if (crowplexus.iris.Iris.proxyImports.exists(moduleName)) {
+						hxClass = crowplexus.iris.Iris.proxyImports.get(moduleName);
+					}
+				} catch(err:Dynamic) {}
+			}
+			#end
+
+			// Если Iris не знает про этот класс, пробуем стандартный поиск Haxe (понадобится keep в Project.xml)
+			if (hxClass == null) {
+				try {
+					hxClass = Type.resolveClass(moduleName);
+				} catch(e:Dynamic) {}
+			}
+
+			// Если класс успешно найден (в Iris или Haxe), упаковываем его в модуль Python
+			if (hxClass != null) {
+				var dictModule = new paopao.hython.Objects.Dict();
+				
+				// Настраиваем вызов класса как функции (для конструкторов вроде FlxButton(0,0))
+				dictModule.set("__call__", hxClass); 
+				dictModule.set(importName, hxClass);
+
+				// Собираем статические поля класса для Python
+				var fields = Type.getClassFields(hxClass);
+				for (field in fields) {
+					var val = Reflect.field(hxClass, field);
+					if (val != null) {
+						dictModule.set(field, val);
+					}
+				}
+				
+				// Хак для геттеров (чтобы работали конструкции вроде FlxG.keys)
+				for (field in fields) {
+					if (field.indexOf("get_") == 0) {
+						var realPropName = field.substring(4);
+						var val = Reflect.getProperty(hxClass, realPropName);
+						if (val != null) {
+							dictModule.set(realPropName, val);
+						}
+					}
+				}
+
+				// Кэшируем созданный модуль в LibraryMacro
+				LibraryMacro.registerModule(moduleName, dictModule);
+				module = dictModule;
+			} else {
+				// Если это не класс, проверяем на Enum (Перечисление Haxe)
+				var hxEnum = Type.resolveEnum(moduleName);
+				if (hxEnum != null) {
+					var enumModule = new paopao.hython.Objects.Dict();
+					var constructs = Type.getEnumConstructs(hxEnum);
+					for (construct in constructs) {
+						var val = Type.createEnum(hxEnum, construct);
+						if (val != null) {
+							enumModule.set(construct, val);
+						}
+					}
+					LibraryMacro.registerModule(moduleName, enumModule);
+					module = enumModule;
+				}
+			}
+		}
 		if (module != null) {
 			variables.set(importName, module);
 			return null;
