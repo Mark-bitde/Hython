@@ -2255,21 +2255,7 @@ class Interp {
 			var hxClass:Dynamic = null;
 
 			// Безопасный статический доступ к глобальной карте прокси Iris
-			#if (crowplexus_iris || iris || hscript)
-			try {
-				// Обращаемся напрямую к классу Iris и его статической карте proxyImports
-				if (crowplexus.iris.Iris.proxyImports.exists(moduleName)) {
-					hxClass = crowplexus.iris.Iris.proxyImports.get(moduleName);
-				}
-			} catch(e:Dynamic) {
-				// Резервный вариант, если в вашей версии пакет называется иначе
-				try {
-					if (crowplexus.iris.Iris.proxyImports.exists(moduleName)) {
-						hxClass = crowplexus.iris.Iris.proxyImports.get(moduleName);
-					}
-				} catch(err:Dynamic) {}
-			}
-			#end
+			
 
 			// Если Iris не знает про этот класс, пробуем стандартный поиск Haxe (понадобится keep в Project.xml)
 			if (hxClass == null) {

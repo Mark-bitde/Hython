@@ -1,7 +1,7 @@
 import tests.unit.TestCase;
-import paopao.hython.Parser;
-import paopao.hython.Objects.Dict;
-import paopao.hython.Interp;
+import markbitde.hython.Parser;
+import markbitde.hython.Objects.Dict;
+import markbitde.hython.Interp;
 
 class TestBuiltins extends TestCase {
 	function run(code:String):Dynamic {

@@ -6,7 +6,7 @@ import haxe.macro.Expr;
 #end
 /**
 	Usage:
-		@:build(paopao.hython.macro.LibraryMacro.register("math"))
+		@:build(markbitde.hython.macro.LibraryMacro.register("math"))
 		class HythonMath { ... }
 	Then in Hython scripts:
 		import math
@@ -28,12 +28,12 @@ class LibraryMacro {
 		// `import math` gives a module object where math.sin() etc. work.
 		var initExpr = macro {
 			var _cls = Type.resolveClass($v{typePath});
-			var _mod = new paopao.hython.Objects.Dict();
+			var _mod = new markbitde.hython.Objects.Dict();
 			for (_field in Type.getClassFields(_cls)) {
 				var _val = Reflect.field(_cls, _field);
 				_mod.set(_field, _val);
 			}
-			paopao.hython.macro.LibraryMacro.registerModule($v{moduleKey}, _mod);
+			markbitde.hython.macro.LibraryMacro.registerModule($v{moduleKey}, _mod);
 		};
 		fields.push({
 			name: "__hython_register__",

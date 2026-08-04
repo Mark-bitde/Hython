@@ -1,7 +1,7 @@
 import tests.unit.TestCase;
-import paopao.hython.Parser;
-import paopao.hython.Interp;
-import paopao.hython.Objects.Tuple;
+import markbitde.hython.Parser;
+import markbitde.hython.Interp;
+import markbitde.hython.Objects.Tuple;
 
 class TestPythonSyntax extends TestCase {
 	function run(code:String):Dynamic {

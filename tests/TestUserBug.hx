@@ -1,6 +1,6 @@
 import tests.unit.TestCase;
-import paopao.hython.Parser;
-import paopao.hython.Interp;
+import markbitde.hython.Parser;
+import markbitde.hython.Interp;
 
 /**
  * This test is for a specific bug that a user reported. It's not meant to be a general test of any particular feature, but just to make sure that this specific code doesn't throw an error anymore.
